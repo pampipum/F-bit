@@ -1,0 +1,73 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import Chart from 'chart.js/auto';
+	import { calculationResults } from '../stores.js';
+
+	let chart;
+
+	onMount(() => {
+		const ctx = document.getElementById('btcChart').getContext('2d');
+
+		// Initialize chart with empty data structure
+		chart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [
+					{
+						label: 'USD/BTC',
+						data: [],
+						borderColor: 'orange',
+						yAxisID: 'y-axis-usd'
+					},
+					{
+						label: 'BTC Stack',
+						data: [],
+						borderColor: 'blue',
+						yAxisID: 'y-axis-stack'
+					}
+				]
+			},
+			options: {
+				scales: {
+					'y-axis-usd': {
+						type: 'logarithmic',
+						position: 'left',
+						title: {
+							display: true,
+							text: 'USD/BTC'
+						}
+					},
+					'y-axis-stack': {
+						type: 'linear',
+						position: 'right',
+						title: {
+							display: true,
+							text: 'BTC Stack'
+						},
+						grid: {
+							drawOnChartArea: false
+						}
+					}
+				}
+			}
+		});
+
+		// Subscribe to calculationResults and update chart data dynamically
+		const unsubscribe = calculationResults.subscribe((results) => {
+			if (results.length > 0) {
+				chart.data.labels = results.map((d) => d.monthStart);
+				chart.data.datasets[0].data = results.map((d) => d.usdBtc);
+				chart.data.datasets[1].data = results.map((d) => d.btcAtMonthEnd);
+				chart.update();
+			}
+		});
+
+		return () => {
+			if (chart) chart.destroy();
+			unsubscribe();
+		};
+	});
+</script>
+
+<canvas id="btcChart"></canvas>
