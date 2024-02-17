@@ -35,6 +35,7 @@
 				]
 			},
 			options: {
+				responsive: true,
 				scales: {
 					'y-axis-usd': {
 						type: 'logarithmic',

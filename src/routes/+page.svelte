@@ -3,6 +3,7 @@
 	import ResultsTable from '$lib/components/ResultsTable.svelte';
 	import Calculate from '$lib/components/Calculate.svelte';
 	import BTCChart from '$lib/components/BTCChart.svelte';
+	import BTCstack from '$lib/components/BTCstack.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 </script>
@@ -28,5 +29,7 @@
 		</div>
 	</div>
 </div>
-<div class="mb-10"></div>
+<div class=" mb-10 px-4">
+	<BTCstack />
+</div>
 <Footer />

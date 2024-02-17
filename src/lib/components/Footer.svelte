@@ -1,4 +1,14 @@
 <footer class="bg-base-300 text-base-content p-4 text-center">
-	<p>Copyright © 2024 - With ❤️ to the Plebs</p>
+	<div class="flex justify-center items-center gap-2">
+		<p>Copyright © 2024 - With ❤️ to the Plebs</p>
+		<a
+			href="https://twitter.com/andremarqueslps"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="text-base-content hover:text-blue-500"
+		>
+			<i class="fab fa-twitter"></i> @andremarqueslps
+		</a>
+	</div>
 	<p>⚡andreml@walletofsatoshi.com</p>
 </footer>
