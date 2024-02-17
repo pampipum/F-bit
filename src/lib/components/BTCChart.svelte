@@ -17,13 +17,19 @@
 					{
 						label: 'USD/BTC',
 						data: [],
-						borderColor: 'orange',
-						yAxisID: 'y-axis-usd'
+						borderColor: 'black',
+						yAxisID: 'y-axis-usd',
+						borderWidth: 3, // Example: setting line thickness
+						pointRadius: 1, // Removes the point marker
+						pointHitRadius: 1 // Adjust if you want the points to be interactable
 					},
 					{
 						label: 'BTC Stack',
 						data: [],
-						borderColor: 'blue',
+						borderColor: 'yellow',
+						borderWidth: 3, // Example: setting line thickness
+						pointRadius: 1, // Removes the point marker
+						pointHitRadius: 1, // Adjust if you want the points to be interactable
 						yAxisID: 'y-axis-stack'
 					}
 				]
