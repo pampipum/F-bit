@@ -1,18 +1,19 @@
-<script>
+<script lang="ts">
 	import { formData } from '../stores.js';
 
 	// Initial values
 	let btcStart = 10;
 	let retirementDate = '2025-01-01';
-	let medianHouseholdIncome = 700000;
 	let incomeAfterTaxes = 53000;
-	let monthlyExpenses = 4527;
+	let monthlyExpenses: any;
+
+	// Reactive statement for monthly expenses calculation
+	$: monthlyExpenses = incomeAfterTaxes / 12;
 
 	// Reactive statements to update the store when values change
 	$: formData.set({
 		btcStart,
 		retirementDate,
-		medianHouseholdIncome,
 		incomeAfterTaxes,
 		monthlyExpenses
 	});
@@ -44,21 +45,8 @@
 		</div>
 
 		<div class="mb-4">
-			<label for="median-income" class="block text-gray-700 text-sm font-bold mb-2"
-				>Median Household Income:</label
-			>
-			<input
-				type="number"
-				id="median-income"
-				min="0"
-				bind:value={medianHouseholdIncome}
-				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-			/>
-		</div>
-
-		<div class="mb-4">
 			<label for="income-after-taxes" class="block text-gray-700 text-sm font-bold mb-2"
-				>Income After Taxes:</label
+				>Income After Taxes(At retirement date):</label
 			>
 			<input
 				type="number"
@@ -70,14 +58,14 @@
 		</div>
 
 		<div class="mb-6">
-			<label for="monthly-expenses" class="block text-gray-700 text-sm font-bold mb-2"
-				>Monthly Expenses:</label
+			<label for="monthly-expenses" class="block text-gray-700 text-sm font-bold mb-2">
+				Monthly Expenses:</label
 			>
 			<input
 				type="number"
 				id="monthly-expenses"
-				min="0"
-				bind:value={monthlyExpenses}
+				readonly
+				value={monthlyExpenses.toFixed(2)}
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
 			/>
 		</div>

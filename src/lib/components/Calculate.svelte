@@ -1,73 +1,83 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { formData, calculationResults } from '../stores.js';
-	import { DateTime } from 'luxon'; // Make sure to install the 'luxon' package
+	import { btcData } from '../data/BTC-USD_converted.js'; // Ensure this path is correct
+	import { DateTime } from 'luxon';
 
 	let data: any[];
 
 	// Subscription to formData store
 	const unsubscribe = formData.subscribe((values) => {
-		console.log('formData updated:', values); // Log formData updates
+		console.log('formData updated:', values);
 
 		// Perform calculations with the updated values
 		data = generateData(values);
-		console.log('Generated data:', data); // Log the generated data
+		console.log('Generated data:', data);
 
 		// Update the calculationResults store with the new data
 		calculationResults.set(data);
-		console.log('calculationResults updated'); // Confirm calculationResults update
+		console.log('calculationResults updated');
 	});
 
-	function generateData({
-		btcStart,
-		retirementDate,
-		medianHouseholdIncome,
-		incomeAfterTaxes,
-		monthlyExpenses
-	}) {
-		const genesis = DateTime.fromISO('2009-03-01');
+	function generateData({ btcStart, retirementDate, incomeAfterTaxes, monthlyExpenses }) {
+		const POWER_LAW_CONSTANT = 10 ** -17;
+		const POWER_LAW_EXPONENT = 5.8;
+		const genesisDate = DateTime.fromISO('2009-01-03'); // The genesis date of Bitcoin
+		const startDate = DateTime.fromISO(btcData[0].monthStart); // Start from the first historical data entry
 		const retirement = DateTime.fromISO(retirementDate);
-		const b = -33;
-		const a = 5;
-		const B = 1.29;
+		const endDate = genesisDate.plus({ years: 60 }); // 60 years after Bitcoin's genesis
 		const fiatPriceInflation = 0.06;
 		const inflationMonthlyMultiplier = Math.pow(1 + fiatPriceInflation, 1 / 12);
 
 		let results = [];
 		let currentBtcStack = btcStart;
 		let currentMonthlyExpenses = monthlyExpenses;
+		let isRetired = false; // To determine if retirement age has been reached
 
-		for (let month = 0; month < 30 * 12; month++) {
-			let monthDate = retirement.plus({ months: month });
-			let xDays = monthDate.diff(genesis, 'days').days;
-			let usdBtc = B * Math.pow(xDays, a) * Math.exp(b);
+		for (
+			let monthDate = startDate;
+			monthDate <= endDate;
+			monthDate = monthDate.plus({ months: 1 })
+		) {
+			let formattedMonthStart = monthDate.toFormat('yyyy-MM-dd');
+			let historicalData = btcData.find((d) => d.monthStart === formattedMonthStart);
+			let usdBtc;
+
+			if (historicalData) {
+				usdBtc = historicalData.usdBtc;
+			} else {
+				let xDays = monthDate.diff(genesisDate, 'days').days;
+				usdBtc = POWER_LAW_CONSTANT * Math.pow(xDays, POWER_LAW_EXPONENT);
+			}
+
+			if (monthDate >= retirement) {
+				isRetired = true;
+			}
+
 			currentMonthlyExpenses *= inflationMonthlyMultiplier;
 
-			let btcExpenses = currentMonthlyExpenses / usdBtc;
-			if (currentBtcStack > btcExpenses) {
+			let btcExpenses = isRetired ? currentMonthlyExpenses / usdBtc : 0;
+			if (currentBtcStack > btcExpenses && isRetired) {
 				currentBtcStack -= btcExpenses;
-			} else {
+			} else if (isRetired) {
+				btcExpenses = currentBtcStack;
 				currentBtcStack = 0;
 			}
 
 			results.push({
 				monthStart: monthDate.toISODate(),
-				xDays,
 				usdBtc,
-				medianHouseholdMonthlyExpense: currentMonthlyExpenses,
-				usdExpensesFinancedByBtcStack: btcExpenses,
+				medianHouseholdMonthlyExpense: isRetired ? currentMonthlyExpenses : null,
+				usdExpensesFinancedByBtcStack: isRetired ? btcExpenses : null,
 				btcAtMonthEnd: currentBtcStack
 			});
 		}
 
-		console.log(results);
 		return results;
 	}
 
 	onMount(() => {
-		// Cleanup function to unsubscribe when component is destroyed
 		return () => {
-			console.log('Unsubscribing from formData');
 			unsubscribe();
 		};
 	});

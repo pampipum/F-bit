@@ -17,6 +17,7 @@
 	<div class="md:w-2/3 w-full">
 		<div class="flex justify-center">
 			<BTCChart />
+			<Calculate />
 		</div>
 	</div>
 </div>
