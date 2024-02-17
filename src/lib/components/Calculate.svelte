@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formData, calculationResults } from '../stores.js';
+	import { formData, calculationResults, retirementMessageStore } from '../stores.js';
 	import { btcData } from '../data/BTC-USD_converted.js'; // Ensure this path is correct
 	import { DateTime } from 'luxon';
 
 	let data: any[];
+	let retirementSufficiencyMessage = ''; // To store the retirement evaluation message
 
 	// Subscription to formData store
 	const unsubscribe = formData.subscribe((values) => {
@@ -13,6 +14,15 @@
 		// Perform calculations with the updated values
 		data = generateData(values);
 		console.log('Generated data:', data);
+
+		// Evaluate retirement sufficiency and generate message
+		retirementSufficiencyMessage = evaluateRetirementSufficiency(
+			data,
+			values.retirementDate,
+			values.monthlyExpenses
+		);
+		retirementMessageStore.set(retirementSufficiencyMessage);
+		console.log(retirementSufficiencyMessage);
 
 		// Update the calculationResults store with the new data
 		calculationResults.set(data);
@@ -74,6 +84,31 @@
 		}
 
 		return results;
+	}
+
+	function evaluateRetirementSufficiency(data, retirementDate, initialMonthlyExpenses) {
+		const retirement = DateTime.fromISO(retirementDate);
+		let totalMonthsCovered = 0;
+		let wasRetired = false;
+		for (let entry of data) {
+			let monthDate = DateTime.fromISO(entry.monthStart);
+			if (monthDate >= retirement) {
+				wasRetired = true;
+				if (entry.btcAtMonthEnd > 0) {
+					totalMonthsCovered++;
+				} else {
+					break; // Stop counting once the BTC stack is depleted
+				}
+			}
+		}
+
+		const totalYearsCovered = totalMonthsCovered / 12;
+		if (!wasRetired || totalYearsCovered >= 30) {
+			return 'The BTC stack is enough to retire on the chosen date.';
+		} else {
+			let shortfall = 30 - totalYearsCovered;
+			return `The BTC stack is not enough to retire on the chosen date (short by approximately ${shortfall.toFixed(2)} years).`;
+		}
 	}
 
 	onMount(() => {

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { formData } from '../stores.js';
 	import { Badge } from '$lib/components/ui/badge';
+	import { retirementMessageStore } from '$lib/stores.js';
+	import * as Alert from '$lib/components/ui/alert';
 
 	// Initial values
 	let btcStart = 3;
@@ -23,7 +25,9 @@
 <div class="max-w-md mx-auto mt-10">
 	<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 		<div class="mb-4">
-			<label for="btc-start" class="block text-gray-700 text-sm font-bold mb-2">BTC Start:</label>
+			<label for="btc-start" class="block text-gray-700 text-sm font-bold mb-2"
+				>BTC Stack at the beggining of retirement:</label
+			>
 			<input
 				type="number"
 				id="btc-start"
@@ -47,7 +51,7 @@
 
 		<div class="mb-4">
 			<label for="income-after-taxes" class="block text-gray-700 text-sm font-bold mb-2"
-				>Income After Taxes(At retirement date) in USD:</label
+				>Retirement Yearly Spending After Taxes (USD):</label
 			>
 			<input
 				type="number"
@@ -60,7 +64,7 @@
 
 		<div class="mb-6">
 			<label for="monthly-expenses" class="block text-gray-700 text-sm font-bold mb-2">
-				Monthly Expenses:</label
+				Monthly Expenses (calculated):</label
 			>
 			<input
 				type="number"
@@ -69,7 +73,11 @@
 				value={monthlyExpenses.toFixed(2)}
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
 			/>
-			<Badge variant="secondary">Assumes 6% inflation rate per year!</Badge>
+			<Badge class="mb-6" variant="secondary">Assumes 6% inflation rate per year!</Badge>
+			<Alert.Root>
+				<Alert.Title>Info!</Alert.Title>
+				<Alert.Description>{$retirementMessageStore}</Alert.Description>
+			</Alert.Root>
 		</div>
 	</form>
 </div>

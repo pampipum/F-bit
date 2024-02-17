@@ -25,6 +25,18 @@ function createCalculationResults() {
 		update
 	};
 }
+function createretirementMessageStore() {
+	const { subscribe, set, update } = writable([]);
+	return {
+		subscribe,
+		set: (value) => {
+			console.log('Updating store chart values now:', value);
+			set(value);
+		},
+		update
+	};
+}
 
 export const formData = createFormData();
 export const calculationResults = createCalculationResults();
+export const retirementMessageStore = createretirementMessageStore();
