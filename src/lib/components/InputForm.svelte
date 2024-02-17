@@ -2,9 +2,9 @@
 	import { formData } from '../stores.js';
 
 	// Initial values
-	let btcStart = 10;
-	let retirementDate = '2025-01-01';
-	let incomeAfterTaxes = 53000;
+	let btcStart = 3;
+	let retirementDate = '2029-01-01';
+	let incomeAfterTaxes = 40000;
 	let monthlyExpenses: any;
 
 	// Reactive statement for monthly expenses calculation
@@ -46,7 +46,7 @@
 
 		<div class="mb-4">
 			<label for="income-after-taxes" class="block text-gray-700 text-sm font-bold mb-2"
-				>Income After Taxes(At retirement date):</label
+				>Income After Taxes(At retirement date) in USD:</label
 			>
 			<input
 				type="number"
