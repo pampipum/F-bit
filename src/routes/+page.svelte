@@ -4,6 +4,7 @@
 	import Calculate from '$lib/components/Calculate.svelte';
 	import BTCChart from '$lib/components/BTCChart.svelte';
 	import Hero from '$lib/components/Hero.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <!-- Hero section -->
@@ -27,3 +28,5 @@
 		</div>
 	</div>
 </div>
+<div class="mb-10"></div>
+<Footer />

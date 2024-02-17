@@ -2,8 +2,8 @@
 	<h1 class="text-3xl font-bold text-center mb-10">🚀 Fire on Bitcoin!</h1>
 	<ul class="space-y-3">
 		<li class="text-l">
-			💡 <strong>Introducing Your Ultimate Bitcoin Retirement Calculator</strong> - Plan your future
-			in Bitcoin.
+			💡 <strong>Introducing the Pleb Bitcoin Retirement Calculator</strong> - Hodl on your future in
+			Bitcoin.
 		</li>
 		<li class="text-l">
 			📅 <strong>Choose Your Retirement Date:</strong> Discover how much Bitcoin you need to retire on
@@ -17,19 +17,21 @@
 			<code>price = 10^-17 * days^5.8</code>. Witness your potential growth.
 		</li>
 		<li class="text-l">
-			💼 <strong>Tailor Your Stack:</strong> Find out how far your current Bitcoin holdings can take
-			you.
+			💼 <strong>Tailor Your Pleb Stack:</strong> Find out how far your current Bitcoin holdings can
+			take you.
 		</li>
 		<li class="text-l">
 			📈 <strong>Visualize Your Time Preference:</strong> With our dynamic graph, see the impact of your
 			decisions over time.
 		</li>
 		<li class="text-l">
-			✨ <strong>Simple, Insightful, and Empowering:</strong> No complex jargon, just your path to financial
-			freedom.
+			✨ <strong>Simple, Insightful, and Empowering:</strong> From the Plebs to the Plebs
 		</li>
 		<li class="text-l">
 			🔍 <strong>Always remember:</strong> Stay humble and stack sats.
+		</li>
+		<li class="text-l">
+			<strong>Last but not least:</strong> All models are wrong....some are useful.
 		</li>
 	</ul>
 </div>
