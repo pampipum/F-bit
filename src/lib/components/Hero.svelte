@@ -29,8 +29,7 @@
 			freedom.
 		</li>
 		<li class="text-l">
-			🔍 <strong>Plan Today, Prosper Tomorrow:</strong> Start your journey with a few clicks. Your future
-			self will thank you!
+			🔍 <strong>Always remember:</strong> Stay humble and stack sats.
 		</li>
 	</ul>
 </div>
