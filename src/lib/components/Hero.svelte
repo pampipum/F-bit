@@ -3,7 +3,7 @@
 	<ul class="space-y-3">
 		<li class="text-l">
 			💡 <strong>Introducing Your Ultimate Bitcoin Retirement Calculator</strong> - Plan your future
-			in crypto.
+			in Bitcoin.
 		</li>
 		<li class="text-l">
 			📅 <strong>Choose Your Retirement Date:</strong> Discover how much Bitcoin you need to retire on
