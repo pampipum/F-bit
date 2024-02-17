@@ -17,7 +17,7 @@
 					{
 						label: 'USD/BTC',
 						data: [],
-						borderColor: 'black',
+						borderColor: 'white',
 						yAxisID: 'y-axis-usd',
 						borderWidth: 3, // Example: setting line thickness
 						pointRadius: 1, // Removes the point marker

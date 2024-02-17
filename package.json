@@ -41,8 +41,13 @@
   },
   "type": "module",
   "dependencies": {
+    "bits-ui": "^0.18.1",
     "chart.js": "^4.4.1",
+    "clsx": "^2.1.0",
     "highlight.js": "11.9.0",
-    "luxon": "^3.4.4"
+    "lucide-svelte": "^0.331.0",
+    "luxon": "^3.4.4",
+    "tailwind-merge": "^2.2.1",
+    "tailwind-variants": "^0.2.0"
   }
 }
