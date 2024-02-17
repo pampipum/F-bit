@@ -1,5 +1,5 @@
-<footer class="bg-base-300 text-base-content p-4 text-center">
-	<div class="flex justify-center items-center gap-2">
+<footer class="bg-base-300 text-base-content p-4 text-center md:text-left">
+	<div class="flex flex-col md:flex-row justify-center items-center gap-2">
 		<p>Copyright © 2024 - With ❤️ to the Plebs</p>
 		<a
 			href="https://twitter.com/andremarqueslps"
@@ -10,5 +10,5 @@
 			<i class="fab fa-twitter"></i> @andremarqueslps
 		</a>
 	</div>
-	<p>⚡andreml@walletofsatoshi.com</p>
+	<p class="pt-2 md:pt-0">⚡andreml@walletofsatoshi.com</p>
 </footer>
