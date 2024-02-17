@@ -10,7 +10,10 @@
 			your chosen date.
 		</li>
 		<li class="text-l">
-			📊 <strong>Powered by the Power Law:</strong> Based on @Giovann35084111's power law equation:
+			📊 <strong>Powered by the Power Law:</strong> Based on
+			<a href="https://twitter.com/Giovann35084111" target="_blank" rel="noopener noreferrer"
+				>@Giovann35084111</a
+			>'s power law equation:
 			<code>price = 10^-17 * days^5.8</code>. Witness your potential growth.
 		</li>
 		<li class="text-l">
