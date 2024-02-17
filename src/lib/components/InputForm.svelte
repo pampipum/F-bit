@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { formData } from '../stores.js';
+	import { Badge } from '$lib/components/ui/badge';
 
 	// Initial values
 	let btcStart = 3;
@@ -68,6 +69,7 @@
 				value={monthlyExpenses.toFixed(2)}
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
 			/>
+			<Badge variant="secondary">Assumes 6% inflation rate per year!</Badge>
 		</div>
 	</form>
 </div>
