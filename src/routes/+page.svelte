@@ -6,6 +6,7 @@
 	import BTCstack from '$lib/components/BTCstack.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import * as Accordion from '$lib/components/ui/accordion';
 </script>
 
 <!-- Hero section -->
@@ -31,5 +32,13 @@
 </div>
 <div class=" mb-10 px-4">
 	<BTCstack />
+	<Accordion.Root class="w-full sm:max-w-[70%]">
+		<Accordion.Item value="item-1">
+			<Accordion.Trigger>Table with data!</Accordion.Trigger>
+			<Accordion.Content>
+				<ResultsTable />
+			</Accordion.Content>
+		</Accordion.Item>
+	</Accordion.Root>
 </div>
 <Footer />

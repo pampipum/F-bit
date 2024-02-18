@@ -29,20 +29,37 @@
 		console.log('calculationResults updated');
 	});
 
-	function generateData({ btcStart, retirementDate, incomeAfterTaxes, monthlyExpenses }) {
+	function generateData({
+		btcStart,
+		retirementDate,
+		incomeAfterTaxes,
+		monthlyExpenses,
+		inflationRate
+	}) {
 		const POWER_LAW_CONSTANT = 10 ** -17;
 		const POWER_LAW_EXPONENT = 5.8;
-		const genesisDate = DateTime.fromISO('2009-01-03'); // The genesis date of Bitcoin
-		const startDate = DateTime.fromISO(btcData[0].monthStart); // Start from the first historical data entry
+		// Convert annual inflation rate to a monthly multiplier
+		const inflationMonthlyMultiplier = Math.pow(1 + inflationRate / 100, 1 / 12);
+
+		// System's current date as the starting point for inflation calculations
+		const currentDate = DateTime.now();
 		const retirement = DateTime.fromISO(retirementDate);
-		const endDate = genesisDate.plus({ years: 60 }); // 60 years after Bitcoin's genesis
-		const fiatPriceInflation = 0.06;
-		const inflationMonthlyMultiplier = Math.pow(1 + fiatPriceInflation, 1 / 12);
+
+		// Ensure the path to btcData is correct and accessible here
+		const startDate = DateTime.fromISO(btcData[0].monthStart);
+		const endDate = currentDate.plus({ years: 60 }); // Assuming a 60-year span from today for BTC data generation
+		let currentMonthlyExpenses = incomeAfterTaxes / 12; // Initial monthly expenses based on today's input
 
 		let results = [];
 		let currentBtcStack = btcStart;
-		let currentMonthlyExpenses = monthlyExpenses;
-		let isRetired = false; // To determine if retirement age has been reached
+		let isRetired = false;
+
+		// Determine the number of months from current date to retirement for inflation adjustment
+		const monthsUntilRetirement = currentDate.until(retirement).length('months');
+
+		// Adjust initial monthly expenses to the month of retirement using the inflation rate
+		let adjustedMonthlyExpenses =
+			currentMonthlyExpenses * Math.pow(inflationMonthlyMultiplier, monthsUntilRetirement);
 
 		for (
 			let monthDate = startDate;
@@ -56,17 +73,18 @@
 			if (historicalData) {
 				usdBtc = historicalData.usdBtc;
 			} else {
-				let xDays = monthDate.diff(genesisDate, 'days').days;
+				// Assuming the POWER_LAW_CONSTANT and POWER_LAW_EXPONENT are defined for predictive BTC pricing
+				let xDays = monthDate.diff(DateTime.fromISO('2009-01-03'), 'days').days;
 				usdBtc = POWER_LAW_CONSTANT * Math.pow(xDays, POWER_LAW_EXPONENT);
 			}
 
 			if (monthDate >= retirement) {
 				isRetired = true;
+				// Adjust monthly expenses for each month after retirement
+				adjustedMonthlyExpenses *= inflationMonthlyMultiplier;
 			}
 
-			currentMonthlyExpenses *= inflationMonthlyMultiplier;
-
-			let btcExpenses = isRetired ? currentMonthlyExpenses / usdBtc : 0;
+			let btcExpenses = isRetired ? adjustedMonthlyExpenses / usdBtc : 0;
 			if (currentBtcStack > btcExpenses && isRetired) {
 				currentBtcStack -= btcExpenses;
 			} else if (isRetired) {
@@ -77,7 +95,7 @@
 			results.push({
 				monthStart: monthDate.toISODate(),
 				usdBtc,
-				medianHouseholdMonthlyExpense: isRetired ? currentMonthlyExpenses : null,
+				medianHouseholdMonthlyExpense: isRetired ? adjustedMonthlyExpenses : null,
 				usdExpensesFinancedByBtcStack: isRetired ? btcExpenses : null,
 				btcAtMonthEnd: currentBtcStack
 			});

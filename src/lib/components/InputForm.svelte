@@ -3,22 +3,23 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { retirementMessageStore } from '$lib/stores.js';
 	import * as Alert from '$lib/components/ui/alert';
+	import * as Accordion from '$lib/components/ui/accordion';
 
-	// Initial values
 	let btcStart = 3;
 	let retirementDate = '2029-01-01';
 	let incomeAfterTaxes = 40000;
+	let inflationRate = 6; // Initial inflation rate value
 	let monthlyExpenses: any;
 
-	// Reactive statement for monthly expenses calculation
 	$: monthlyExpenses = incomeAfterTaxes / 12;
 
-	// Reactive statements to update the store when values change
+	// Reactive statement to update the store when values change
 	$: formData.set({
 		btcStart,
 		retirementDate,
 		incomeAfterTaxes,
-		monthlyExpenses
+		monthlyExpenses,
+		inflationRate // Add the inflation rate to the formData store
 	});
 </script>
 
@@ -51,7 +52,7 @@
 
 		<div class="mb-4">
 			<label for="income-after-taxes" class="block text-gray-700 text-sm font-bold mb-2"
-				>Retirement Yearly Spending After Taxes (USD):</label
+				>Present Yearly Spending After Taxes- (USD):</label
 			>
 			<input
 				type="number"
@@ -73,7 +74,26 @@
 				value={monthlyExpenses.toFixed(2)}
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
 			/>
-			<Badge class="mb-6" variant="secondary">Assumes 6% inflation rate per year!</Badge>
+			<Accordion.Root class="w-full sm:max-w-[70%]">
+				<Accordion.Item value="item-1">
+					<Accordion.Trigger class="text-black">Change yearly inflation!</Accordion.Trigger>
+					<Accordion.Content>
+						<div class="mt-4">
+							<label for="inflation-rate" class="block text-gray-700 text-sm font-bold mb-2">
+								Annual Inflation Rate (%):
+							</label>
+							<input
+								type="number"
+								id="inflation-rate"
+								min="0"
+								step="0.1"
+								bind:value={inflationRate}
+								class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							/>
+						</div>
+					</Accordion.Content>
+				</Accordion.Item>
+			</Accordion.Root>
 			<Alert.Root>
 				<Alert.Title>Info!</Alert.Title>
 				<Alert.Description>{$retirementMessageStore}</Alert.Description>
