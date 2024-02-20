@@ -7,7 +7,6 @@ function createFormData() {
 	return {
 		subscribe,
 		set: (value) => {
-			console.log('Updating simply:', value);
 			set(value);
 		},
 		update
@@ -19,7 +18,6 @@ function createCalculationResults() {
 	return {
 		subscribe,
 		set: (value) => {
-			console.log('Updating store chart values now:', value);
 			set(value);
 		},
 		update
@@ -30,7 +28,6 @@ function createretirementMessageStore() {
 	return {
 		subscribe,
 		set: (value) => {
-			console.log('Updating store chart values now:', value);
 			set(value);
 		},
 		update

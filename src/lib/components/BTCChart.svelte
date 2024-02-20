@@ -77,4 +77,6 @@
 	});
 </script>
 
-<canvas id="btcChart"></canvas>
+<div class="w-full max-w-full h-auto">
+	<canvas id="btcChart"></canvas>
+</div>

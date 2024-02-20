@@ -9,11 +9,8 @@
 
 	// Subscription to formData store
 	const unsubscribe = formData.subscribe((values) => {
-		console.log('formData updated:', values);
-
 		// Perform calculations with the updated values
 		data = generateData(values);
-		console.log('Generated data:', data);
 
 		// Evaluate retirement sufficiency and generate message
 		retirementSufficiencyMessage = evaluateRetirementSufficiency(
@@ -22,11 +19,9 @@
 			values.monthlyExpenses
 		);
 		retirementMessageStore.set(retirementSufficiencyMessage);
-		console.log(retirementSufficiencyMessage);
 
 		// Update the calculationResults store with the new data
 		calculationResults.set(data);
-		console.log('calculationResults updated');
 	});
 
 	function generateData({

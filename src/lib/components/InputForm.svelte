@@ -4,12 +4,21 @@
 	import { retirementMessageStore } from '$lib/stores.js';
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Accordion from '$lib/components/ui/accordion';
+	import { onMount } from 'svelte';
 
 	let btcStart = 3;
 	let retirementDate = '2029-01-01';
 	let incomeAfterTaxes = 40000;
 	let inflationRate = 6; // Initial inflation rate value
 	let monthlyExpenses: any;
+	let todayDate: string;
+
+	onMount(() => {
+		const today = new Date();
+		const tomorrow = new Date(today);
+		tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow's date
+		todayDate = tomorrow.toISOString().split('T')[0]; // Updates todayDate to represent tomorrow's date in YYYY-MM-DD format
+	});
 
 	$: monthlyExpenses = incomeAfterTaxes / 12;
 
@@ -39,13 +48,14 @@
 		</div>
 
 		<div class="mb-4">
-			<label for="retirement-date" class="block text-gray-700 text-sm font-bold mb-2"
-				>Retirement Date:</label
+			<label for="retirement-date" class="block text-gray-700 text-sm font-bold mb-2">
+				Retirement Date:</label
 			>
 			<input
 				type="date"
 				id="retirement-date"
 				bind:value={retirementDate}
+				min={todayDate}
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 			/>
 		</div>
