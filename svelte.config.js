@@ -8,7 +8,9 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			edge: true,
+			// Use 'edge' runtime instead of 'edge: true'
+			runtime: 'edge',
+			// Keep the split option
 			split: true
 		}),
 		alias: {
