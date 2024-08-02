@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { goto } from '$app/navigation';
 
 import { Input } from '$lib/components/ui/input';
 import { Label } from '$lib/components/ui/label';
@@ -294,6 +295,10 @@ $: {
     generateBtcPriceData();
 }
 
+function goToHomePage() {
+    goto('/');
+}
+
 </script>
 
 <svelte:head>
@@ -312,7 +317,11 @@ $: {
 </svelte:head>
 
 <div class="bg-black text-white min-h-screen flex justify-center items-center">
-    <div class="container mx-auto px-4 py-8 w-4/5">
+    <div class="container mx-auto px-4 py-8">
+        <Button on:click={goToHomePage} class="mb-4 bg-yellow-400 text-black hover:bg-yellow-500">
+            Back to Home
+        </Button>
+
         <Card class="w-full bg-black text-white">
             <CardHeader>
                 <CardTitle class="flex items-center gap-2 text-xl sm:text-2xl font-bold">
